@@ -30,7 +30,8 @@ bin/
 .DS_Store
 
 # IntelliJ IDEA
-.idea/
+.idea/*.xml
+.idea
 
 # Build output
 /out/
@@ -39,3 +40,8 @@ build/
 # IDE junk
 Thumbs.db
 
+# obsidian
+.obsidian
+
+# 컴파일 된 class 파일
+*.class
