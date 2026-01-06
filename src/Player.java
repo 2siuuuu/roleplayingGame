@@ -2,8 +2,10 @@ public class Player extends LivingBeing {
     private int level;      // 플레이어 고유 속성
     private int experience; // 플레이어 고유 속성
 
+
     // 생성자: LivingBeing의 속성을 포함하여 Player 객체 초기화
     public Player(String name, int healthPoint, int attackPower, int energy, int level, int experience) {
+        
         // 부모 클래스(LivingBeing)의 생성자 호출
         super(name, healthPoint, attackPower, energy);
         this.level = level;
