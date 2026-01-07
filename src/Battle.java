@@ -132,36 +132,37 @@ public class Battle {
 
             // 사망, 도망 판단
             if (!this.player.isAlive()){
-                //플레이어 사망
-                // 상태 변경
-                this.player.setStatement(0);
+                // 플레이어 사망
+                // 생명체의 상태를 사망으로 변경
+                this.player.setAliveStatus("DEATH");
                 // 전투 불능으로 변경
                 this.player.setBattleAvailable(false);
-                System.out.println("플레이어 상태:"+this.player.getStatement());
+//                System.out.println("플레이어 상태:"+this.player.getStatement());//이제부터 "플레이어 상태"는 생존/사망 이 아니면 모두 전투에서의 상태를 의미함.
+
                 // 전투 종료로 변경
                 endCombat();
 
                 // 디버깅
                 System.out.println("몬스터hp:"+this.monster.getHealthPoint());
-                System.out.println("몬스터 상태:"+this.monster.getStatement());
+//                System.out.println("몬스터 상태:"+this.monster.getStatement());
                 System.out.println("플레이어 hp :"+this.player.getHealthPoint());
-                System.out.println("플레이어 상태 :"+this.player.getStatement());
+//                System.out.println("플레이어 상태 :"+this.player.getStatement());
 
                 return;
             }
             else if(!this.monster.isAlive()){
                 //몬스터 사망
-                this.monster.setStatement(0);
+                this.monster.setAliveStatus("DEATH");
                 this.monster.setBattleAvailable(false);
-                System.out.println("몬스터 상태:"+this.monster.getStatement());
+//                System.out.println("몬스터 상태:"+this.monster.getStatement());
                 //전투 종료로 변경
                 endCombat();
 
                 // 디버깅
                 System.out.println("몬스터hp:"+this.monster.getHealthPoint());
-                System.out.println("몬스터 상태:"+this.monster.getStatement());
+//                System.out.println("몬스터 상태:"+this.monster.getStatement());
                 System.out.println("플레이어 hp :"+this.player.getHealthPoint());
-                System.out.println("플레이어 상태 :"+this.player.getStatement());
+//                System.out.println("플레이어 상태 :"+this.player.getStatement());
 
                 return;
             }
