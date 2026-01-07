@@ -1,5 +1,5 @@
 public class Monster extends LivingBeing {
-    private String monsterType; // 몬스터 고유 속성
+    private final String monsterType; // 몬스터 고유 속성
 
     // 생성자
     public Monster(String name, int healthPoint, int attackPower, int energy, String monsterType) {
@@ -24,7 +24,7 @@ public class Monster extends LivingBeing {
         if (this.energy > 0) {
             // 몬스터는 공격 시 에너지를 소비하는 로직 추가
             super.attack(target); // 부모의 기본 공격 로직 실행
-            this.energy -= 1;
+//            this.energy -= 1; // 에너지는 일단 주석처리. 현재 우선개발사항이 아님
             System.out.println(this.name + "의 현재 에너지: " + this.energy);
         } else {
             System.out.println(this.name + "이(가) 지쳐서 공격할 수 없다.");

@@ -18,8 +18,9 @@ public class Battle {
     }
 
     public void battle_start(Scanner sc) {
-        System.out.println("전투 시작!");
         this.referee.startCombat();  // 전투 상태를 true로 변경
+        player.setBattleAvailable(true);
+        monster.setBattleAvailable(true);
 
         // 턴 시작
 
@@ -51,12 +52,12 @@ public class Battle {
         // 리턴값 : 1 - 공격, 2 - 방어, 3 - 도망
         if (get_last_attacker()) {
             // 현재 턴이 몬스터인 경우
-            // 공격
-//            this.player.attack(this.monster);
+            System.out.println("몬스터의 공격 차례.");
             return 1;
         }
         else {
             // 현재 턴이 플레이어인 경우
+            System.out.println("플레이어의 공격 차례.");
             while (true) {
                 System.out.println("행동을 선택하세요: 1. 공격 | 2. 방어 | 3. 도망");
                 int input = sc.nextInt();
@@ -90,7 +91,7 @@ public class Battle {
                 this.player.attack(this.monster);
             } else if (actiontype == 2) {
                 //방어
-                System.out.println("방어했다!");
+                this.player.defend(true);
             }
             else if (actiontype == 3) {
                 // 도망
@@ -104,13 +105,8 @@ public class Battle {
     }
 
     private void setLastAttacker() {
-        if (this.last_attacker) {
-            //false로 변경
-            this.last_attacker = false;
-        }
-        else {
-            this.last_attacker = true;
-        }
+        // 이 메서드는 마지막 공격자를 토글한다.
+        last_attacker = !last_attacker;
     }
 
     public class Referee {

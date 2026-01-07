@@ -12,7 +12,6 @@ public class GameSimulation {
         System.out.println("--- 전투 시작 ---");
 
         // 배틀 시작
-        //
         Battle battle = new Battle(hero, goblin);
 
         battle.battle_start(sc);

@@ -6,14 +6,16 @@ public class LivingBeing {
     protected String name;
     protected int healthPoint;
     protected int attackPower;
-    protected int energy;
     // 에너지가 0이 되면 피해를 50% 더 받는다.
+    protected int energy;
+    protected boolean isInDefensiveState;
 
     // 생존 여부는 선언과 동시에 생존 상태로 초기화
     protected boolean alive = true;
 
-    protected boolean isBattleAvailable;
-    // LivingBeing의 필드로 선언. why? 모두가 가지는 근본상태임. plyer만이, monster만이 가지는 상태는 아님.
+    protected boolean isBattleAvailable = false;
+    // isBattleAvailable true 타이밍 : 전투 시작
+    // isBattleAvailable false 타이밍 : 전투 주체 사망|도망|전투 종료
 
     private boolean isjudged;
 
@@ -24,8 +26,6 @@ public class LivingBeing {
         this.healthPoint = healthPoint;
         this.attackPower = attackPower;
         this.energy = energy;
-
-        setBattleAvailable(true);
     }
 
 
@@ -80,18 +80,40 @@ public class LivingBeing {
 
     // 메서드: 피해를 입음
     public void takeDamage(int damage) {
+
+        // 피해 입기 전, 상태에 따라 데미지 계산
+        damage = damageCalculator(damage);
+
         // Math.max(a,b)의 결과가 a < b 이면 b를 반환한다. a > b이면 a를 반환한다. (큰 값을 반환함.)
+        // 계산 결과는 항상 0이거나 0 이상의 수이다.
         this.healthPoint = Math.max(this.healthPoint - damage, 0);
 
         System.out.println(this.name + "이(가) " + damage + "의 피해를 입었다.");
 
+        //피해 입은 후 방어 상태였다면 방어를 해제
+        if (isInDefensiveState) isInDefensiveState = false;
+
+
+        // 사망 판단
         // 계산 후 체력이 0 이하이면 대상이 쓰러졌다고 알린다.
-        if (this.healthPoint <= 0) {
+        if (this.healthPoint == 0) { // <=에서 ==으로 변경. 이유는 Line 86의 코드 설명 참고.
             setAliveStatus("DEATH");
             // 해당 생명체는 죽기만 하면 되고, 죽음을 판정했음을 알리는 메시지는 Battle에서 주관하면 된다.
             // 즉 아래 메시지는 이곳에 있으면 안 된다.
             System.out.println(this.name + "이(가) 쓰러졌다.");
         }
+    }
+    private int damageCalculator(int originDamage) {
+        int result = originDamage;
+
+        //현재 방어 상태 확인
+        if (isInDefensiveState) {
+            result = 0;
+            System.out.println(this.name + "이(가) 피해를 방어했다.");
+        }
+
+        // 계산된 결과 반환
+        return result;
     }
 
     // 메서드: 공격
@@ -102,7 +124,12 @@ public class LivingBeing {
     }
 
     // 메서드 : 방어
-    public void defend(LivingBeing target) {
+    // 해당 생명체의 방어 상태를 ON/OFF하는 메서드. 방어 상태 설정 메서드.
+    public void defend(boolean value) {
+        isInDefensiveState = value;
+        System.out.println(this.name+"이(가) 방어 상태에 돌입했다.");
+        //디버깅 로그 출력
+//        System.out.println("방어 상태:"+isInDefensiveState);
 
     }
 
